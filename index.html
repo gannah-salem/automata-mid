@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AI 412 - Automata & Formal Languages Quiz Bank</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --primary-rgb: 56, 189, 248;
+      --success: #22c55e;
+      --success-bg: rgba(34, 197, 94, 0.15);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --option-bg: #334155;
+      --option-hover: #475569;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      --radius: 16px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-rgb: 2, 132, 199;
+      --success: #16a34a;
+      --success-bg: rgba(22, 163, 74, 0.12);
+      --danger: #dc2626;
+      --danger-bg: rgba(220, 38, 38, 0.12);
+      --option-bg: #f8fafc;
+      --option-hover: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    /* Course Navigation Switcher */
+    .course-switcher {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      background: var(--card-bg);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      overflow-x: auto;
+    }
+
+    .course-link {
+      flex: 1;
+      min-width: 130px;
+      text-align: center;
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .course-link.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .course-link:hover:not(.active) {
+      background: var(--option-hover);
+      color: var(--text);
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .brand h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .brand p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      background: var(--option-bg);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: var(--option-hover);
+    }
+
+    /* Views */
+    .view {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Settings Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .settings-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    .settings-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .setting-group {
+      margin-bottom: 22px;
+    }
+
+    .setting-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      display: block;
+      color: var(--text);
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .radio-card {
+      position: relative;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .radio-content {
+      padding: 14px 12px;
+      background: var(--option-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .radio-content .icon {
+      font-size: 1.4rem;
+    }
+
+    .radio-content .title {
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .radio-content .desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .radio-card input:checked + .radio-content {
+      border-color: var(--primary);
+      background: rgba(var(--primary-rgb), 0.15);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .start-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), #6366f1);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 1.15rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    }
+
+    .start-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Quiz Bar */
+    .quiz-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .stats-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: var(--option-bg);
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+    }
+
+    .stats-badge.score-badge {
+      color: var(--success);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .stats-badge.wrong-badge {
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 8px;
+      background: var(--option-bg);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), #a855f7);
+      transition: width 0.3s ease;
+    }
+
+    /* Question Card */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .question-card.answered-correct {
+      border-color: var(--success);
+    }
+
+    .question-card.answered-wrong {
+      border-color: var(--danger);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .q-num {
+      background: rgba(var(--primary-rgb), 0.15);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .q-lecture {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: var(--option-bg);
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .q-text {
+      font-size: 1.08rem;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      color: var(--text);
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* Answers */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      background: var(--option-bg);
+      border: 1.5px solid var(--card-border);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 12px;
+      text-align: left;
+      direction: ltr;
+      font-size: 0.96rem;
+      line-height: 1.45;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .option-btn:hover:not(.disabled) {
+      background: var(--option-hover);
+      border-color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    .option-btn.disabled {
+      cursor: default;
+    }
+
+    .opt-letter {
+      font-weight: 700;
+      color: var(--primary);
+      flex-shrink: 0;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(var(--primary-rgb), 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .opt-text {
+      flex: 1;
+    }
+
+    /* Answer States */
+    .option-btn.correct-choice {
+      background: var(--success-bg) !important;
+      border-color: var(--success) !important;
+      color: var(--success) !important;
+      font-weight: 600;
+    }
+
+    .option-btn.correct-choice .opt-letter {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .option-btn.wrong-choice {
+      background: var(--danger-bg) !important;
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
+      text-decoration: line-through;
+    }
+
+    .option-btn.wrong-choice .opt-letter {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    /* Feedback Box */
+    .feedback-box {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: fadeIn 0.2s;
+    }
+
+    .feedback-box.correct {
+      display: flex;
+      background: var(--success-bg);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+
+    .feedback-box.wrong {
+      display: flex;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+
+    /* Nav buttons */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary {
+      background: var(--option-bg);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--option-hover);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Results Screen */
+    .result-summary {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, var(--card-bg) 60%, transparent 61%), conic-gradient(var(--primary) 0%, var(--option-bg) 0%);
+      border: 4px solid var(--card-border);
+      position: relative;
+    }
+
+    .score-num {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .score-pct {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0 25px;
+    }
+
+    .stat-card {
+      background: var(--option-bg);
+      border: 1px solid var(--card-border);
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-card .val {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .stat-card .lbl {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .wrong-filter-tab {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: var(--option-bg);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .review-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .review-item.is-wrong {
+      border-right: 5px solid var(--danger);
+    }
+
+    .review-item.is-correct {
+      border-right: 5px solid var(--success);
+    }
+
+    .review-q {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .review-ans {
+      font-size: 0.9rem;
+      direction: ltr;
+      text-align: left;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+    }
+
+    .review-ans.user-choice-wrong {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .review-ans.correct-choice-box {
+      background: var(--success-bg);
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .theory-box {
+      background: var(--option-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 14px;
+      direction: ltr;
+      text-align: left;
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    /* Floating Jump Button for All Mode */
+    .finish-all-sticky {
+      position: sticky;
+      bottom: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 12px 18px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      margin-top: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .brand h1 {
+        font-size: 1rem;
+      }
+      .q-text {
+        font-size: 1rem;
+      }
+      .option-btn {
+        font-size: 0.9rem;
+        padding: 12px;
+      }
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+      .btn {
+        padding: 10px 14px;
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Course Switcher -->
+    <div class="course-switcher">
+      <a href="automata.html" class="course-link active">🤖 AI 412 (Automata)</a>
+      <a href="index.html" class="course-link">🛡️ SEC411 (Cyber Security)</a>
+      <a href="sece43.html" class="course-link">☁️ SECE43 (Cloud Security)</a>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">🤖</div>
+        <div>
+          <h1>AI 412 - Automata Theory</h1>
+          <p>بنك أسئلة الكويزات (Quiz 1, 2, 3) - جامعة الدلتا</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" title="تبديل الوضع">🌙 مريح</button>
+      </div>
+    </header>
+
+    <!-- VIEW 1: SETTINGS / HOME -->
+    <section id="settingsView" class="view active">
+      <div class="card">
+        <h2 class="settings-title">اختبار نظرية الآلات واللغات الصورية</h2>
+        <p class="settings-subtitle">Theory of Automata and Formal Languages (AI 412)</p>
+
+        <!-- Display Mode -->
+        <div class="setting-group">
+          <label class="setting-label">1. أسلوب العرض:</label>
+          <div class="option-grid">
+            <label class="radio-card">
+              <input type="radio" name="displayMode" value="one" checked>
+              <div class="radio-content">
+                <span class="icon">📄</span>
+                <span class="title">سؤال بسؤال</span>
+                <span class="desc">تركيز كامل على كل سؤال مع تقليب سلس</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="displayMode" value="all">
+              <div class="radio-content">
+                <span class="icon">📑</span>
+                <span class="title">الأسئلة كلها معاً</span>
+                <span class="desc">تمرير وحل جميع الأسئلة في صفحة واحدة</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Order Mode -->
+        <div class="setting-group">
+          <label class="setting-label">2. ترتيب الأسئلة:</label>
+          <div class="option-grid">
+            <label class="radio-card">
+              <input type="radio" name="orderMode" value="sequential" checked>
+              <div class="radio-content">
+                <span class="icon">🔢</span>
+                <span class="title">بالترتيب الأصلي</span>
+                <span class="desc">مرتب حسب تسلسل الكويزات 1، 2، 3</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="orderMode" value="random">
+              <div class="radio-content">
+                <span class="icon">🔀</span>
+                <span class="title">ترتيب عشوائي</span>
+                <span class="desc">خلط الأسئلة لاختبار الحفظ والاستيعاب</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Quiz Selection -->
+        <div class="setting-group">
+          <label class="setting-label">3. اختيار الكويز:</label>
+          <div class="option-grid">
+            <label class="radio-card">
+              <input type="radio" name="quizScope" value="all" checked>
+              <div class="radio-content">
+                <span class="icon">📚</span>
+                <span class="title">جميع الكويزات (63 سؤال)</span>
+                <span class="desc">Quiz 1 + Quiz 2 + Quiz 3</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="quizScope" value="q1">
+              <div class="radio-content">
+                <span class="icon">1️⃣</span>
+                <span class="title">Quiz 1 (29 سؤال)</span>
+                <span class="desc">FA, DFA, NFA Basics</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="quizScope" value="q2">
+              <div class="radio-content">
+                <span class="icon">2️⃣</span>
+                <span class="title">Quiz 2 (17 سؤال)</span>
+                <span class="desc">ε-NFA, Subsets, e-Closure</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="quizScope" value="q3">
+              <div class="radio-content">
+                <span class="icon">3️⃣</span>
+                <span class="title">Quiz 3 (17 سؤال)</span>
+                <span class="desc">Minimization, RegEx & States</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <button id="startQuizBtn" class="start-btn">ابدأ الاختبار الآن 🚀</button>
+      </div>
+
+      <!-- Quick Summary Card for Theory Questions -->
+      <div class="card">
+        <h3 style="font-size: 1.1rem; margin-bottom: 12px; color: var(--primary); text-align: center;">📌 أسئلة مقالية ونظرية محلولة من الكويزات للمراجعة</h3>
+        <details style="cursor: pointer; margin-bottom: 10px;">
+          <summary style="font-weight: 600; padding: 8px; background: var(--option-bg); border-radius: 8px;">1. مقارنة شاملة: DFA vs NFA vs ε-NFA (من Quiz 2)</summary>
+          <div class="theory-box">
+            <strong>1) Formal Definition:</strong><br>
+            All are 5-tuple: (Q, Σ, δ, q0, F).<br>
+            • DFA: δ: Q × Σ → Q (deterministic, single state output).<br>
+            • NFA: δ: Q × Σ → P(Q) (non-deterministic, power set output).<br>
+            • ε-NFA: δ: Q × (Σ ∪ {ε}) → P(Q) (adds ε-transitions).<br>
+            <em>All three recognize the exact same class of languages (Regular Languages).</em><br><br>
+            <strong>2) Design vs Execution:</strong><br>
+            • NFA / ε-NFA: Easier/intuitive to design, fewer states, but execution is slower.<br>
+            • DFA: Optimal for runtime execution O(n) (used in compiler lexical analyzers), but can require exponential number of states.<br><br>
+            <strong>3) Conversion:</strong><br>
+            Subset construction converts NFA to DFA. For ε-NFA, calculate ε-closure first.<br><br>
+            <strong>4) Applications:</strong><br>
+            DFA used in performance-critical lexical scanners. NFAs used in regex engines and modeling concurrent systems.
+          </div>
+        </details>
+        <details style="cursor: pointer;">
+          <summary style="font-weight: 600; padding: 8px; background: var(--option-bg); border-radius: 8px;">2. إزالة الحالات غير القابلة للوصول Remove Unreachable States (من Quiz 3)</summary>
+          <div class="theory-box">
+            <strong>Algorithm:</strong><br>
+            1. Start with Q0 = {Initial State A}.<br>
+            2. Compute reachable states on inputs 0 and 1: Q1 = {A} ∪ δ(A,0) ∪ δ(A,1).<br>
+            3. Repeat until Qi = Qi-1.<br>
+            4. Any states not present in the final reachable set (such as state C and D) are deleted, producing the minimal connected automaton.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- VIEW 2: QUIZ -->
+    <section id="quizView" class="view">
+      <!-- Sticky Stats Bar -->
+      <div class="quiz-bar">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="stats-badge" id="counterBadge">سؤال 1 من 63</span>
+          <span class="stats-badge score-badge" id="scoreBadge">✅ صح: 0</span>
+          <span class="stats-badge wrong-badge" id="wrongBadge">❌ خطأ: 0</span>
+        </div>
+        <div>
+          <button id="quitQuizBtn" class="icon-btn" style="font-size: 0.8rem;">خروج للإعدادات ↩️</button>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <!-- Container for Questions -->
+      <div id="questionsContainer"></div>
+
+      <!-- Single Question Navigation Buttons -->
+      <div id="singleNavControls" class="nav-buttons">
+        <button id="prevBtn" class="btn btn-secondary">السابق ➡️</button>
+        <button id="nextBtn" class="btn btn-primary">التالي ⬅️</button>
+      </div>
+
+      <!-- All Questions Sticky Bottom Bar -->
+      <div id="allNavControls" class="finish-all-sticky" style="display: none;">
+        <span id="allProgressText" style="font-weight: 600; font-size: 0.95rem;">تمت إجابة 0 من 63</span>
+        <button id="finishAllBtn" class="btn btn-success">إنهاء ورؤية النتيجة 🏁</button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: RESULTS -->
+    <section id="resultsView" class="view">
+      <div class="card result-summary">
+        <div class="score-circle" id="scoreCircle">
+          <span class="score-num" id="finalScoreVal">0/63</span>
+          <span class="score-pct" id="finalPercentVal">0%</span>
+        </div>
+
+        <div id="resultBadge" class="result-badge">تقييم النتيجة</div>
+        <p id="resultMsg" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;"></p>
+
+        <div class="result-grid">
+          <div class="stat-card">
+            <div class="val" style="color: var(--primary);" id="statTotal">63</div>
+            <div class="lbl">إجمالي الأسئلة</div>
+          </div>
+          <div class="stat-card">
+            <div class="val" style="color: var(--success);" id="statCorrect">0</div>
+            <div class="lbl">الإجابات الصحيحة</div>
+          </div>
+          <div class="stat-card">
+            <div class="val" style="color: var(--danger);" id="statWrong">0</div>
+            <div class="lbl">الإجابات الخاطئة</div>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="retryErrorsBtn" class="btn btn-primary">🎯 إعادة حل الأسئلة التي أخطأت فيها فقط</button>
+          <button id="restartAllBtn" class="btn btn-secondary">🔄 إعادة الاختبار بالكامل</button>
+          <button id="backToHomeBtn" class="btn btn-secondary">⚙️ تغيير الإعدادات</button>
+        </div>
+      </div>
+
+      <!-- Review Section -->
+      <div class="card">
+        <h3 style="font-size: 1.15rem; margin-bottom: 14px; text-align: center;">مراجعة الأسئلة والإجابات النموذجية</h3>
+        
+        <div class="wrong-filter-tab">
+          <button class="tab-btn active" id="filterWrongOnly">❌ الأسئلة الخاطئة فقط (<span id="wrongCountTab">0</span>)</button>
+          <button class="tab-btn" id="filterAll">📋 جميع الأسئلة</button>
+        </div>
+
+        <div id="reviewContainer"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // 63 Complete Official MCQs extracted accurately from Quiz 1, Quiz 2, and Quiz 3
+    const RAW_QUESTIONS = [
+      // ==================== QUIZ 1 (Questions 1 - 29) ====================
+      {
+        id: "Q1-1",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q1: What is the purpose of finite automata in computational systems?",
+        options: [
+          { key: "A", text: "To limit resource consumption" },
+          { key: "B", text: "To parse languages" },
+          { key: "C", text: "To design efficient algorithms" },
+          { key: "D", text: "To recognize patterns in data" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q1-2",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q2: What does DFA stand for?",
+        options: [
+          { key: "A", text: "Deterministic Finite Automaton" },
+          { key: "B", text: "Dynamic Finite Automaton" },
+          { key: "C", text: "Dynamic Finite Algorithm" },
+          { key: "D", text: "Deterministic Finite Algorithm" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-3",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q3: Write the regular expression for the language accepting all strings that start with 'b' over S = {a, b}.",
+        options: [
+          { key: "A", text: "b(a+b)" },
+          { key: "B", text: "a(b+a)*" },
+          { key: "C", text: "a(b)*" },
+          { key: "D", text: "b(a+b)*" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q1-4",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q4: What does NFA stand for in automata theory?",
+        options: [
+          { key: "A", text: "Nondeterministic Finite Automaton" },
+          { key: "B", text: "Non-functional Automaton" },
+          { key: "C", text: "Null Finite Automaton" },
+          { key: "D", text: "Nonlinear Finite Algorithm" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-5",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q5: Which of the following defines a finite automaton?",
+        options: [
+          { key: "A", text: "A machine that only accepts regular expressions" },
+          { key: "B", text: "A machine without an initial state" },
+          { key: "C", text: "A machine with a finite set of states and transitions" },
+          { key: "D", text: "A machine with an infinite number of states" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q1-6",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q6: What happens when an automaton reaches an accepting state?",
+        options: [
+          { key: "A", text: "It returns to the previous state" },
+          { key: "B", text: "It rejects the input" },
+          { key: "C", text: "It accepts the input" },
+          { key: "D", text: "It restarts" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q1-7",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q7: What is the main aim of computational theory?",
+        options: [
+          { key: "A", text: "To study computation and problem-solving" },
+          { key: "B", text: "To control machine learning models" },
+          { key: "C", text: "To create programming languages" },
+          { key: "D", text: "To build robots" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q1-8",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q8: What does S represent in formal language theory?",
+        options: [
+          { key: "A", text: "A context-free grammar" },
+          { key: "B", text: "A finite set of characters" },
+          { key: "C", text: "A machine configuration" },
+          { key: "D", text: "An infinite sequence" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q1-9",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q9: Which of the following is a characteristic of a DFA?",
+        options: [
+          { key: "A", text: "Can remember past states" },
+          { key: "B", text: "Multiple transitions for each input" },
+          { key: "C", text: "No final states" },
+          { key: "D", text: "Exactly one transition for each input" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q1-10",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q10: Write the regular expression for the language accepting all strings containing at least two 'a's.",
+        options: [
+          { key: "A", text: "(a+b)*a(a+b)*a" },
+          { key: "B", text: "(a+b)(a+b)(a+b)" },
+          { key: "C", text: "a(a+b)a(a+b)" },
+          { key: "D", text: "(a+b)aa(a+b)" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-11",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q11: Which type of automaton recognizes regular languages?",
+        options: [
+          { key: "A", text: "Pushdown Automaton (PDA)" },
+          { key: "B", text: "Finite Automaton (FA)" },
+          { key: "C", text: "Turing Machine" },
+          { key: "D", text: "Context-Free Grammar" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q1-12",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q12: How does an NFA differ from a DFA?",
+        options: [
+          { key: "A", text: "It allows multiple transitions for a symbol" },
+          { key: "B", text: "It does not process input symbols" },
+          { key: "C", text: "It allows multiple start states" },
+          { key: "D", text: "It has infinite states" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-13",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q13: What is the primary use of DFAs in computer science?",
+        options: [
+          { key: "A", text: "All of the above" },
+          { key: "B", text: "Memory management" },
+          { key: "C", text: "Syntax analysis" },
+          { key: "D", text: "Pattern matching" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-14",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q14: What are the three basic concepts of computation theory?",
+        options: [
+          { key: "A", text: "Operations, Codes, Machines" },
+          { key: "B", text: "Alphabets, Strings, Machines" },
+          { key: "C", text: "Languages, Grammars, Automata" },
+          { key: "D", text: "Data, Control, Output" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q1-15",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q15: What does a DFA do on reading an input string?",
+        options: [
+          { key: "A", text: "Accepts or rejects based on states" },
+          { key: "B", text: "Ignores the input" },
+          { key: "C", text: "Transforms input into output" },
+          { key: "D", text: "Outputs the string" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-16",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q16: In an NFA, transitions can include ______.",
+        options: [
+          { key: "A", text: "Multiple symbols" },
+          { key: "B", text: "Only one symbol" },
+          { key: "C", text: "e-transitions" },
+          { key: "D", text: "No transitions" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q1-17",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q17: What is the goal of building an automaton?",
+        options: [
+          { key: "A", text: "To determine which strings are in a language" },
+          { key: "B", text: "To decide algorithm feasibility" },
+          { key: "C", text: "To classify languages" },
+          { key: "D", text: "To recognize initial state" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-18",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q18: Which of the following languages can a DFA recognize?",
+        options: [
+          { key: "A", text: "All of the above" },
+          { key: "B", text: "Regular languages" },
+          { key: "C", text: "Recursive languages" },
+          { key: "D", text: "Context-free languages" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q1-19",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q19: Which of the following is true about NFAs?",
+        options: [
+          { key: "A", text: "They can have multiple possible transitions for a symbol" },
+          { key: "B", text: "They cannot have epsilon transitions" },
+          { key: "C", text: "They only accept regular languages" },
+          { key: "D", text: "They require all transitions to be defined" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-20",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q20: Which formal language corresponds to finite automata?",
+        options: [
+          { key: "A", text: "Context-Sensitive Languages" },
+          { key: "B", text: "Recursively Enumerable Languages" },
+          { key: "C", text: "Regular Languages" },
+          { key: "D", text: "Context-Free Languages" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q1-21",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q21: Which of the following matches strings that end with '00' over S = {0, 1}?",
+        options: [
+          { key: "A", text: "0*(0|1)" },
+          { key: "B", text: "(0|1)*00" },
+          { key: "C", text: "(00|1)*" },
+          { key: "D", text: "1000" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q1-22",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q22: How many states does a DFA have for a binary alphabet?",
+        options: [
+          { key: "A", text: "2" },
+          { key: "B", text: "Depends on the input length" },
+          { key: "C", text: "Depends on the number of symbols" },
+          { key: "D", text: "1" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q1-23",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q23: What is an epsilon transition?",
+        options: [
+          { key: "A", text: "A transition with no input symbol" },
+          { key: "B", text: "A transition with the start symbol" },
+          { key: "C", text: "A transition with multiple input symbols" },
+          { key: "D", text: "A transition without reaching final states" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-24",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q24: What is the smallest building block used to represent information?",
+        options: [
+          { key: "A", text: "Symbol" },
+          { key: "B", text: "Alphabet" },
+          { key: "C", text: "String" },
+          { key: "D", text: "Variable" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q1-25",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q25: Which of the following can an NFA do that a DFA cannot?",
+        options: [
+          { key: "A", text: "Accept regular languages" },
+          { key: "B", text: "Reject strings" },
+          { key: "C", text: "Start computation" },
+          { key: "D", text: "Move to multiple states at once" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q26",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q26: Which of the following describes the relationship between DFAs and NFAs (Nondeterministic Finite Automata)?",
+        options: [
+          { key: "A", text: "DFAs cannot be converted to NFAs." },
+          { key: "B", text: "Both can recognize the same class of languages (regular languages)." },
+          { key: "C", text: "DFAs are less powerful than NFAs." },
+          { key: "D", text: "NFAs can process input faster than DFAs." }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q27",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q27: What is the result of (a+b)*?",
+        options: [
+          { key: "A", text: "Only ‘a’" },
+          { key: "B", text: "Only ‘b’" },
+          { key: "C", text: "Empty set" },
+          { key: "D", text: "All strings of a’s and b’s" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q28",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q28: What does the expression (ab|cd)* represent?",
+        options: [
+          { key: "A", text: "A string containing only 'ab'" },
+          { key: "B", text: "Any string of 'ab' and 'cd' concatenated together" },
+          { key: "C", text: "Exactly one occurrence of 'ab' or 'cd'" },
+          { key: "D", text: "No occurrence of 'ab' or 'cd'" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q29",
+        quizNum: 1,
+        quizLabel: "Quiz 1",
+        question: "Q29: What is the main purpose of using an NFA?",
+        options: [
+          { key: "A", text: "To accept infinite languages" },
+          { key: "B", text: "To increase computational power" },
+          { key: "C", text: "To simplify construction of automata" },
+          { key: "D", text: "To reject strings" }
+        ],
+        answer: "C"
+      },
+
+      // ==================== QUIZ 2 (Questions 2 - 18) ====================
+      {
+        id: "Q2-2",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q2: Write the regular expression for the language accepting strings containing exactly three 'b's over S = {a, b}.",
+        options: [
+          { key: "A", text: "abbb" },
+          { key: "B", text: "a*ba*ba*ba*" },
+          { key: "C", text: "aaab" },
+          { key: "D", text: "ababa*b" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q2-3",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q3: Write the regular expression for the language accepting strings containing exactly three 'b's over S = {a, b}. (Review)",
+        options: [
+          { key: "A", text: "abbb" },
+          { key: "B", text: "ababa*b" },
+          { key: "C", text: "a*ba*ba*ba*" },
+          { key: "D", text: "aaab" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-4",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q4: How does an NFA handle multiple paths for a given input?",
+        options: [
+          { key: "A", text: "It accepts all paths" },
+          { key: "B", text: "It rejects all paths" },
+          { key: "C", text: "It stops processing" },
+          { key: "D", text: "It clones itself along each path" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q2-5",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q5: Example of a non-regular language:",
+        options: [
+          { key: "A", text: "{a*b}" },
+          { key: "B", text: "{(ab)*}" },
+          { key: "C", text: "{a^n b^n}" },
+          { key: "D", text: "{a|b}" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-6",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q6: How does an NFA differ from a DFA in terms of state transitions?",
+        options: [
+          { key: "A", text: "DFAs can only accept strings" },
+          { key: "B", text: "NFAs have no transitions" },
+          { key: "C", text: "NFAs can have multiple transitions" },
+          { key: "D", text: "NFAs cannot accept any strings" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-7",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q7: How many final states can a DFA have?",
+        options: [
+          { key: "A", text: "None" },
+          { key: "B", text: "Exactly one" },
+          { key: "C", text: "At least one" },
+          { key: "D", text: "Any number" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-8",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q8: What is the purpose of using transition tables in DFAs?",
+        options: [
+          { key: "A", text: "To simplify computations" },
+          { key: "B", text: "To list all possible strings" },
+          { key: "C", text: "To visualize state transitions" },
+          { key: "D", text: "To define final states" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-9",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q9: What happens when NFA reads a symbol with multiple transitions?",
+        options: [
+          { key: "A", text: "It clones itself" },
+          { key: "B", text: "It resets" },
+          { key: "C", text: "It halts" },
+          { key: "D", text: "It rejects" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q2-10",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q10: In terms of performance, how do DFAs compare to NFAs?",
+        options: [
+          { key: "A", text: "They perform equally" },
+          { key: "B", text: "DFAs are slower" },
+          { key: "C", text: "DFAs are faster" },
+          { key: "D", text: "It depends on implementation" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-11",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q11: What type of languages do NFAs accept?",
+        options: [
+          { key: "A", text: "Context-free languages" },
+          { key: "B", text: "Infinite languages" },
+          { key: "C", text: "Regular languages" },
+          { key: "D", text: "Non-regular languages" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-12",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q12: Which algorithm is commonly used to convert NFA to DFA?",
+        options: [
+          { key: "A", text: "Dynamic programming" },
+          { key: "B", text: "Greedy algorithm" },
+          { key: "C", text: "Subset construction" },
+          { key: "D", text: "Backtracking" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-13",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q13: How many transitions does each state in a DFA have for a specific input?",
+        options: [
+          { key: "A", text: "One" },
+          { key: "B", text: "None" },
+          { key: "C", text: "Depends on design" },
+          { key: "D", text: "Two" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q2-14",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q14: Which of the following strings will be accepted by a DFA designed to recognize all strings containing the sequence ‘000’?",
+        options: [
+          { key: "A", text: "11001" },
+          { key: "B", text: "101010" },
+          { key: "C", text: "\"00010\"" },
+          { key: "D", text: "11" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-15",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q15: What are the three basic concepts of computation theory?",
+        options: [
+          { key: "A", text: "Operations, Codes, Machines" },
+          { key: "B", text: "Data, Control, Output" },
+          { key: "C", text: "Languages, Grammars, Automata" },
+          { key: "D", text: "Alphabets, Strings, Machines" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q2-16",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q16: What is guaranteed by the determinism property of a DFA?",
+        options: [
+          { key: "A", text: "Each state has exactly one transition per input symbol." },
+          { key: "B", text: "Each input string produces multiple outputs." },
+          { key: "C", text: "The DFA accepts all input strings." },
+          { key: "D", text: "The DFA always halts." }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q2-17",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q17: What is e-closure of a state?",
+        options: [
+          { key: "A", text: "Set of final states" },
+          { key: "B", text: "Set of transitions" },
+          { key: "C", text: "Set of all start states" },
+          { key: "D", text: "Set of all reachable states using e" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q2-18",
+        quizNum: 2,
+        quizLabel: "Quiz 2",
+        question: "Q18: e–Closure(q1) = { q1, q4 } means what?",
+        options: [
+          { key: "A", text: "q1 and q4 are same" },
+          { key: "B", text: "q1 is final state" },
+          { key: "C", text: "q4 is start state" },
+          { key: "D", text: "q1 can reach q4 using e" }
+        ],
+        answer: "D"
+      },
+
+      // ==================== QUIZ 3 (Questions 1 - 17) ====================
+      {
+        id: "Q3-1",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q1: Which automaton is used to recognize regular languages?",
+        options: [
+          { key: "A", text: "Turing machine" },
+          { key: "B", text: "Finite automaton" },
+          { key: "C", text: "Pushdown automaton" },
+          { key: "D", text: "CFG" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q3-2",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q2: Write the regular expression for the language accepting strings of length exactly 3 over S = {a, b}.",
+        options: [
+          { key: "A", text: "a{3}b{3}" },
+          { key: "B", text: "a{3}+b{3}" },
+          { key: "C", text: "(a+b)(a+b)(a+b)" },
+          { key: "D", text: "(aa+bb)(aa+bb)(aa+bb)" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q3-3",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q3: What does an NFA do if no path exists for an input symbol?",
+        options: [
+          { key: "A", text: "Stops" },
+          { key: "B", text: "Moves to the reject state" },
+          { key: "C", text: "Loops indefinitely" },
+          { key: "D", text: "Continues with epsilon transition" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q3-4",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q4: How many final states can a DFA have?",
+        options: [
+          { key: "A", text: "None" },
+          { key: "B", text: "At least one" },
+          { key: "C", text: "Any number" },
+          { key: "D", text: "Exactly one" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q3-5",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q5: What is the purpose of subset construction in converting an NFA to a DFA?",
+        options: [
+          { key: "A", text: "To minimize states in an NFA." },
+          { key: "B", text: "To construct a DFA equivalent to an NFA." },
+          { key: "C", text: "To identify unreachable states." },
+          { key: "D", text: "To identify cycles in an NFA." }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q3-6",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q6: What is a transition diagram?",
+        options: [
+          { key: "A", text: "A table of inputs" },
+          { key: "B", text: "A list of accepted strings" },
+          { key: "C", text: "A graphical representation of states" },
+          { key: "D", text: "None of the above" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q3-7",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q7: In a DFA, what happens if an invalid input is read?",
+        options: [
+          { key: "A", text: "The DFA goes to a dead state" },
+          { key: "B", text: "The DFA outputs an error" },
+          { key: "C", text: "The DFA restarts" },
+          { key: "D", text: "The DFA accepts the string" }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q3-8",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q8: What is the significance of the transition function in a DFA?",
+        options: [
+          { key: "A", text: "It ensures the automaton has infinite states." },
+          { key: "B", text: "It determines the next state based on the current state and input symbol." },
+          { key: "C", text: "It maps the final state to an output." },
+          { key: "D", text: "It defines the initial state." }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q3-9",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q9: Which condition makes a state in a DFA an accepting state?",
+        options: [
+          { key: "A", text: "If it is defined as a final state." },
+          { key: "B", text: "If it consumes all symbols of a string." },
+          { key: "C", text: "If the state is not reachable." },
+          { key: "D", text: "If all transitions are deterministic." }
+        ],
+        answer: "A"
+      },
+      {
+        id: "Q3-10",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q10: Write the regular expression for the language that has a string with at least one 'a' followed by any number of 'b's.",
+        options: [
+          { key: "A", text: "(a+b)*b" },
+          { key: "B", text: "a(b+)*" },
+          { key: "C", text: "a(b)*" },
+          { key: "D", text: "b(a)*" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q3-11",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q11: Which of the following is TRUE about DFA and NFA?",
+        options: [
+          { key: "A", text: "NFA is more powerful" },
+          { key: "B", text: "They accept different languages" },
+          { key: "C", text: "They accept the same set of languages" },
+          { key: "D", text: "DFA is more powerful" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q3-12",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q12: Which automaton can simulate an NFA?",
+        options: [
+          { key: "A", text: "Turing Machine" },
+          { key: "B", text: "DFA" },
+          { key: "C", text: "PDA" },
+          { key: "D", text: "Both A and C" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q3-13",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q13: What is e-closure of a state?",
+        options: [
+          { key: "A", text: "Set of all start states" },
+          { key: "B", text: "Set of final states" },
+          { key: "C", text: "Set of all reachable states using e" },
+          { key: "D", text: "Set of transitions" }
+        ],
+        answer: "C"
+      },
+      {
+        id: "Q3-14",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q14: What is the language recognized by a DFA that accepts only binary strings ending with '0'?",
+        options: [
+          { key: "A", text: "1*0*" },
+          { key: "B", text: "0*1" },
+          { key: "C", text: "01*" },
+          { key: "D", text: "(0|1)*0" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q3-15",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q15: Minimization of a DFA ______ the number of states.",
+        options: [
+          { key: "A", text: "May increase" },
+          { key: "B", text: "Always increases" },
+          { key: "C", text: "Has no effect" },
+          { key: "D", text: "Never increases" }
+        ],
+        answer: "D"
+      },
+      {
+        id: "Q3-16",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q16: Which expression matches strings containing an even number of 'b's over S = {a, b}?",
+        options: [
+          { key: "A", text: "(ab)*" },
+          { key: "B", text: "(a*ba*ba*)*" },
+          { key: "C", text: "(b|ab)*" },
+          { key: "D", text: "ab" }
+        ],
+        answer: "B"
+      },
+      {
+        id: "Q3-17",
+        quizNum: 3,
+        quizLabel: "Quiz 3",
+        question: "Q17: e-moves in NFAs are ______.",
+        options: [
+          { key: "A", text: "Equal to loops only" },
+          { key: "B", text: "Allowed" },
+          { key: "C", text: "Forbidden" },
+          { key: "D", text: "Same as DFA moves" }
+        ],
+        answer: "B"
+      }
+    ];
+
+    // State
+    let quizQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = {};
+    let config = {
+      displayMode: "one",
+      orderMode: "sequential",
+      quizScope: "all"
+    };
+
+    // DOM Elements
+    const settingsView = document.getElementById("settingsView");
+    const quizView = document.getElementById("quizView");
+    const resultsView = document.getElementById("resultsView");
+    const questionsContainer = document.getElementById("questionsContainer");
+    const singleNavControls = document.getElementById("singleNavControls");
+    const allNavControls = document.getElementById("allNavControls");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const counterBadge = document.getElementById("counterBadge");
+    const scoreBadge = document.getElementById("scoreBadge");
+    const wrongBadge = document.getElementById("wrongBadge");
+    const progressFill = document.getElementById("progressFill");
+    const themeToggle = document.getElementById("themeToggle");
+
+    // Init Theme
+    let isDark = true;
+    themeToggle.addEventListener("click", () => {
+      isDark = !isDark;
+      if (isDark) {
+        document.documentElement.removeAttribute("data-theme");
+        themeToggle.textContent = "🌙 مريح";
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        themeToggle.textContent = "☀️ فاتح";
+      }
+    });
+
+    // Start Quiz Button
+    document.getElementById("startQuizBtn").addEventListener("click", () => {
+      config.displayMode = document.querySelector('input[name="displayMode"]:checked').value;
+      config.orderMode = document.querySelector('input[name="orderMode"]:checked').value;
+      config.quizScope = document.querySelector('input[name="quizScope"]:checked').value;
+
+      initQuiz(false);
+    });
+
+    function initQuiz(errorsOnly = false, errorList = []) {
+      userAnswers = {};
+      currentIndex = 0;
+
+      if (errorsOnly) {
+        quizQuestions = [...errorList];
+      } else {
+        let baseList = [...RAW_QUESTIONS];
+        if (config.quizScope === "q1") {
+          baseList = baseList.filter(q => q.quizNum === 1);
+        } else if (config.quizScope === "q2") {
+          baseList = baseList.filter(q => q.quizNum === 2);
+        } else if (config.quizScope === "q3") {
+          baseList = baseList.filter(q => q.quizNum === 3);
+        }
+
+        if (config.orderMode === "random") {
+          quizQuestions = shuffleArray([...baseList]);
+        } else {
+          quizQuestions = [...baseList];
+        }
+      }
+
+      showView(quizView);
+      renderQuizMode();
+      updateHeaderStats();
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function showView(view) {
+      [settingsView, quizView, resultsView].forEach(v => v.classList.remove("active"));
+      view.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderQuizMode() {
+      questionsContainer.innerHTML = "";
+
+      if (config.displayMode === "one") {
+        singleNavControls.style.display = "flex";
+        allNavControls.style.display = "none";
+        renderSingleQuestion(currentIndex);
+      } else {
+        singleNavControls.style.display = "none";
+        allNavControls.style.display = "flex";
+        renderAllQuestions();
+      }
+    }
+
+    function renderSingleQuestion(index) {
+      questionsContainer.innerHTML = "";
+      const q = quizQuestions[index];
+      const card = createQuestionCard(q, index + 1, quizQuestions.length);
+      questionsContainer.appendChild(card);
+
+      counterBadge.textContent = `سؤال ${index + 1} من ${quizQuestions.length}`;
+      prevBtn.disabled = (index === 0);
+      
+      if (index === quizQuestions.length - 1) {
+        nextBtn.textContent = "إنهاء وعرض النتيجة 🏁";
+        nextBtn.className = "btn btn-success";
+      } else {
+        nextBtn.textContent = "التالي ⬅️";
+        nextBtn.className = "btn btn-primary";
+      }
+    }
+
+    function renderAllQuestions() {
+      questionsContainer.innerHTML = "";
+      quizQuestions.forEach((q, idx) => {
+        const card = createQuestionCard(q, idx + 1, quizQuestions.length);
+        questionsContainer.appendChild(card);
+      });
+      counterBadge.textContent = `الكل: ${quizQuestions.length} سؤال`;
+      updateAllProgressText();
+    }
+
+    function updateAllProgressText() {
+      const answeredCount = Object.keys(userAnswers).length;
+      document.getElementById("allProgressText").textContent = `تمت إجابة ${answeredCount} من ${quizQuestions.length}`;
+    }
+
+    function createQuestionCard(q, displayNum, totalCount) {
+      const card = document.createElement("div");
+      card.className = "question-card";
+      card.id = `qCard_${q.id}`;
+
+      const answered = userAnswers[q.id];
+      if (answered) {
+        card.classList.add(answered.isCorrect ? "answered-correct" : "answered-wrong");
+      }
+
+      card.innerHTML = `
+        <div class="q-header">
+          <span class="q-num">سؤال ${displayNum} / ${totalCount}</span>
+          <span class="q-lecture">${q.quizLabel}</span>
+        </div>
+        <div class="q-text">${escapeHtml(q.question)}</div>
+        <div class="options-list" id="opts_${q.id}">
+          ${q.options.map(opt => `
+            <button class="option-btn" data-qid="${q.id}" data-key="${opt.key}">
+              <span class="opt-letter">${opt.key}</span>
+              <span class="opt-text">${escapeHtml(opt.text)}</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="feedback-box" id="feedback_${q.id}"></div>
+      `;
+
+      const buttons = card.querySelectorAll(".option-btn");
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => handleSelectOption(q, btn.dataset.key, card));
+      });
+
+      if (answered) {
+        applyFeedbackUI(card, q, answered.selected);
+      }
+
+      return card;
+    }
+
+    function handleSelectOption(q, selectedKey, card) {
+      if (userAnswers[q.id]) return;
+
+      const isCorrect = (selectedKey === q.answer);
+      userAnswers[q.id] = { selected: selectedKey, isCorrect: isCorrect };
+
+      applyFeedbackUI(card, q, selectedKey);
+      updateHeaderStats();
+
+      if (config.displayMode === "all") {
+        updateAllProgressText();
+      }
+    }
+
+    function applyFeedbackUI(card, q, selectedKey) {
+      const isCorrect = (selectedKey === q.answer);
+      const buttons = card.querySelectorAll(".option-btn");
+      const feedbackBox = card.querySelector(`#feedback_${q.id}`);
+
+      buttons.forEach(b => {
+        b.classList.add("disabled");
+        const k = b.dataset.key;
+        if (k === q.answer) {
+          b.classList.add("correct-choice");
+        } else if (k === selectedKey && !isCorrect) {
+          b.classList.add("wrong-choice");
+        }
+      });
+
+      card.classList.remove("answered-correct", "answered-wrong");
+      card.classList.add(isCorrect ? "answered-correct" : "answered-wrong");
+
+      if (isCorrect) {
+        feedbackBox.className = "feedback-box correct";
+        feedbackBox.innerHTML = `<span>✓ إجابة صحيحة وممتازة! 🎉</span>`;
+      } else {
+        const correctOpt = q.options.find(o => o.key === q.answer);
+        feedbackBox.className = "feedback-box wrong";
+        feedbackBox.innerHTML = `<span>✕ إجابة غير صحيحة! الإجابة النموذجية هي: (${q.answer}) ${escapeHtml(correctOpt.text)}</span>`;
+      }
+    }
+
+    function updateHeaderStats() {
+      let correct = 0;
+      let wrong = 0;
+      Object.values(userAnswers).forEach(ans => {
+        if (ans.isCorrect) correct++;
+        else wrong++;
+      });
+
+      scoreBadge.textContent = `✅ صح: ${correct}`;
+      wrongBadge.textContent = `❌ خطأ: ${wrong}`;
+
+      const answeredTotal = Object.keys(userAnswers).length;
+      const pct = (answeredTotal / quizQuestions.length) * 100;
+      progressFill.style.width = `${pct}%`;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderSingleQuestion(currentIndex);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < quizQuestions.length - 1) {
+        currentIndex++;
+        renderSingleQuestion(currentIndex);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        showResults();
+      }
+    });
+
+    document.getElementById("finishAllBtn").addEventListener("click", () => {
+      const answeredCount = Object.keys(userAnswers).length;
+      if (answeredCount < quizQuestions.length) {
+        const unanswered = quizQuestions.length - answeredCount;
+        if (!confirm(`لقد أجبت على ${answeredCount} من ${quizQuestions.length} سؤالاً. هل تريد إنهاء الاختبار ورؤية نتيجتك وحساب ${unanswered} أسئلة متبقية كإجابات خاطئة؟`)) {
+          return;
+        }
+      }
+      showResults();
+    });
+
+    document.getElementById("quitQuizBtn").addEventListener("click", () => {
+      if (confirm("هل ترغب في العودة إلى شاشة البداية وتغيير الإعدادات؟")) {
+        showView(settingsView);
+      }
+    });
+
+    function showResults() {
+      let correctCount = 0;
+      let wrongCount = 0;
+      const wrongQuestions = [];
+
+      quizQuestions.forEach(q => {
+        const ans = userAnswers[q.id];
+        if (ans && ans.isCorrect) {
+          correctCount++;
+        } else {
+          wrongCount++;
+          wrongQuestions.push(q);
+        }
+      });
+
+      const total = quizQuestions.length;
+      const percent = Math.round((correctCount / total) * 100);
+
+      document.getElementById("finalScoreVal").textContent = `${correctCount}/${total}`;
+      document.getElementById("finalPercentVal").textContent = `${percent}%`;
+      document.getElementById("statTotal").textContent = total;
+      document.getElementById("statCorrect").textContent = correctCount;
+      document.getElementById("statWrong").textContent = wrongCount;
+      document.getElementById("wrongCountTab").textContent = wrongCount;
+
+      const scoreCircle = document.getElementById("scoreCircle");
+      scoreCircle.style.background = `radial-gradient(circle, var(--card-bg) 60%, transparent 61%), conic-gradient(var(--success) ${percent}%, var(--option-bg) ${percent}% 100%)`;
+
+      const resultBadge = document.getElementById("resultBadge");
+      const resultMsg = document.getElementById("resultMsg");
+
+      if (percent >= 90) {
+        resultBadge.textContent = "🏆 ممتاز جداً - خبير Automata!";
+        resultBadge.style.background = "rgba(34, 197, 94, 0.2)";
+        resultBadge.style.color = "var(--success)";
+        resultMsg.textContent = "أداء استثنائي! استيعاب رائع لجميع مفاهيم DFA و NFA و RegEx.";
+      } else if (percent >= 75) {
+        resultBadge.textContent = "🌟 جيد جداً!";
+        resultBadge.style.background = "rgba(56, 189, 248, 0.2)";
+        resultBadge.style.color = "var(--primary)";
+        resultMsg.textContent = "أداء قوي، راجع فقط بعض الأسئلة التي تعثرت بها لتضمن الدرجة النهائية.";
+      } else if (percent >= 50) {
+        resultBadge.textContent = "👍 اجتياز مقبول";
+        resultBadge.style.background = "rgba(234, 179, 8, 0.2)";
+        resultBadge.style.color = "#eab308";
+        resultMsg.textContent = "مستوى جيد! اضغط على زر مراجعة الأخطاء فقط لتثبيت الأسئلة الصعبة.";
+      } else {
+        resultBadge.textContent = "⚠️ تحتاج إلى مراجعة إضافية";
+        resultBadge.style.background = "rgba(239, 68, 68, 0.2)";
+        resultBadge.style.color = "var(--danger)";
+        resultMsg.textContent = "لا تقلق! لديك قائمة بكل الأسئلة الخاطئة مع إجابتها النموذجية بالأسفل لتتعلم منها بسهولة.";
+      }
+
+      const retryErrorsBtn = document.getElementById("retryErrorsBtn");
+      if (wrongCount === 0) {
+        retryErrorsBtn.style.display = "none";
+      } else {
+        retryErrorsBtn.style.display = "inline-flex";
+        retryErrorsBtn.onclick = () => {
+          initQuiz(true, wrongQuestions);
+        };
+      }
+
+      renderReview(true);
+      showView(resultsView);
+    }
+
+    const filterWrongOnly = document.getElementById("filterWrongOnly");
+    const filterAll = document.getElementById("filterAll");
+
+    filterWrongOnly.addEventListener("click", () => {
+      filterWrongOnly.classList.add("active");
+      filterAll.classList.remove("active");
+      renderReview(true);
+    });
+
+    filterAll.addEventListener("click", () => {
+      filterAll.classList.add("active");
+      filterWrongOnly.classList.remove("active");
+      renderReview(false);
+    });
+
+    function renderReview(wrongOnly = true) {
+      const container = document.getElementById("reviewContainer");
+      container.innerHTML = "";
+
+      let items = quizQuestions;
+      if (wrongOnly) {
+        items = quizQuestions.filter(q => {
+          const ans = userAnswers[q.id];
+          return !ans || !ans.isCorrect;
+        });
+      }
+
+      if (items.length === 0) {
+        container.innerHTML = `<div style="text-align: center; padding: 25px; color: var(--success); font-weight: 600;">🎉 ما شاء الله! لا توجد أي أخطاء في هذا القسم!</div>`;
+        return;
+      }
+
+      items.forEach((q, idx) => {
+        const ans = userAnswers[q.id];
+        const isCorrect = ans && ans.isCorrect;
+        const correctOpt = q.options.find(o => o.key === q.answer);
+        const userOpt = ans ? q.options.find(o => o.key === ans.selected) : null;
+
+        const div = document.createElement("div");
+        div.className = `review-item ${isCorrect ? 'is-correct' : 'is-wrong'}`;
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="font-weight:bold; color:var(--primary); font-size:0.9rem;">#${q.id}</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);">${q.quizLabel}</span>
+          </div>
+          <div class="review-q">${escapeHtml(q.question)}</div>
+          ${!isCorrect && userOpt ? `
+            <div class="review-ans user-choice-wrong">
+              ❌ <strong>إجابتك:</strong> (${userOpt.key}) ${escapeHtml(userOpt.text)}
+            </div>
+          ` : (!ans ? `
+            <div class="review-ans user-choice-wrong">
+              ❌ <strong>لم تتم الإجابة عليه</strong>
+            </div>
+          ` : `
+            <div class="review-ans correct-choice-box">
+              ✅ <strong>أجبت إجابة صحيحة:</strong> (${correctOpt.key}) ${escapeHtml(correctOpt.text)}
+            </div>
+          `)}
+          ${!isCorrect ? `
+            <div class="review-ans correct-choice-box">
+              ✅ <strong>الإجابة النموذجية:</strong> (${correctOpt.key}) ${escapeHtml(correctOpt.text)}
+            </div>
+          ` : ''}
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    document.getElementById("restartAllBtn").addEventListener("click", () => {
+      initQuiz(false);
+    });
+
+    document.getElementById("backToHomeBtn").addEventListener("click", () => {
+      showView(settingsView);
+    });
+
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+  </script>
+</body>
+</html>
